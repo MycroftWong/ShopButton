@@ -1,4 +1,4 @@
-package com.esthetics.shopbutton;
+package com.mycroft.shopbutton;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -46,15 +46,18 @@ public class ShopButton extends LinearLayout {
 
     private int mCurrentCount;
 
+    private OnCountChangedListener mCountChangedListener;
+
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         setBackgroundResource(R.drawable.shop_button);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ShopButton, defStyleAttr, defStyleRes);
 
+        mCurrentCount = 1;
+
         initViews(context, attrs, defStyleAttr, defStyleRes, a);
         initViewsStyle(a);
 
-        mCurrentCount = 1;
 
         mMin = a.getInt(R.styleable.ShopButton_min, 1);
         mMax = a.getInt(R.styleable.ShopButton_max, 1);
@@ -148,14 +151,13 @@ public class ShopButton extends LinearLayout {
     private final OnClickListener mClickListener = v -> {
         if (mSubButton == v) {
             if (mCurrentCount > mMin) {
-                mCurrentCount--;
+                setCount(mCurrentCount - 1);
             }
         } else if (mAddButton == v) {
             if (mCurrentCount < mMax) {
-                mCurrentCount++;
+                setCount(mCurrentCount + 1);
             }
         }
-        setCount(mCurrentCount);
     };
 
     /**
@@ -168,10 +170,17 @@ public class ShopButton extends LinearLayout {
     }
 
     public void setCount(int count) {
+        int oldCount = mCurrentCount;
+        String countText = mCountText.getText().toString();
         count = Math.max(mMin, Math.min(mMax, count));
 
-        mCurrentCount = count;
-        mCountText.setText(String.valueOf(mCurrentCount));
+        if (count != oldCount) {
+            mCurrentCount = count;
+            mCountText.setText(String.valueOf(mCurrentCount));
+            if (mCountChangedListener != null) {
+                mCountChangedListener.onCountChanged(count);
+            }
+        }
 
         mSubButton.setEnabled(mMin < mCurrentCount);
         mAddButton.setEnabled(mMax > mCurrentCount);
@@ -202,5 +211,25 @@ public class ShopButton extends LinearLayout {
     private static int dp2px(final float dpValue) {
         final float scale = Resources.getSystem().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    public OnCountChangedListener getCountChangedListener() {
+        return mCountChangedListener;
+    }
+
+    public void setCountChangedListener(OnCountChangedListener mCountChangedListener) {
+        this.mCountChangedListener = mCountChangedListener;
+    }
+
+    /**
+     * 数量改变的监听器
+     */
+    public interface OnCountChangedListener {
+        /**
+         * 数量改变时回调
+         *
+         * @param count current count
+         */
+        void onCountChanged(int count);
     }
 }

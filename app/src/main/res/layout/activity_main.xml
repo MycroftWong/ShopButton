@@ -6,7 +6,8 @@
         android:layout_width="match_parent" android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <com.esthetics.shopbutton.ShopButton
+    <com.mycroft.shopbutton.ShopButton
+            android:id="@+id/shopButton"
             android:layout_margin="12dp"
             app:buttonTextSize="18dp"
             app:min="0"
