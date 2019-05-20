@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ShopButton">
+        <attr name="min" format="integer" />
+        <attr name="max" format="integer" />
+        <attr name="buttonTextSize" format="dimension" />
+        <attr name="countTextSize" format="dimension" />
+        <attr name="buttonTextColor" format="color|reference" />
+        <attr name="countTextColor" format="color|reference" />
+        <attr name="buttonBackground" format="reference" />
+        <attr name="countBackground" format="reference" />
+        <attr name="buttonWidth" format="dimension" />
+    </declare-styleable>
+
+</resources>
