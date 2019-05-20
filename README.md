@@ -21,3 +21,7 @@ buttonWidth | 加减按钮宽度 |
 
 按钮的宽度 buttonWidth
 数量文字的宽度 = ShopButton的宽度 - 2 * 按钮的宽度
+
+## 数量变化监听器
+
+`OnCountChangeListener`, 只有当数量变化时才会被调用 `onCountChanged(int count)`
